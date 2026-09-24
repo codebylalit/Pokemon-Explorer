@@ -42,9 +42,6 @@ export default function RootLayout({
         <footer className="border-t border-stone-200/80 bg-white py-6 text-center text-xs text-stone-600 dark:border-stone-800/80 dark:bg-stone-950 dark:text-stone-300">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
             <p>
-              Built with <strong>Next.js App Router</strong>, <strong>TypeScript</strong>, and <strong>Tailwind CSS</strong>.
-            </p>
-            <p>
               Data provided by{" "}
               <a
                 href="https://pokeapi.co"

@@ -16,6 +16,7 @@ Pokemon Explorer gives users an intuitive interface to browse through Pokemon, s
   - Case-insensitive search by Pokemon name or ID.
   - Type filter tags to quickly narrow down Pokemon by elemental type.
   - Sorting options by ID (ascending/descending) and Name (alphabetical).
+- **Pagination**: Bottom pagination controls with page numbers, jump-to-page, items-per-page options (24, 48, All), and smooth top-scrolling for effortless browsing.
 - **Empty and Feedback States**: Clear messaging when no Pokemon match active search filters, along with an instant reset button.
 - **Loading and Error Handling**: Skeleton cards during data retrieval and error boundaries with retry actions.
 
