@@ -1,7 +1,6 @@
 import React from "react";
 import { AbilityItem } from "@/types/pokemon";
 import { formatName } from "@/lib/constants";
-import { Sparkles, EyeOff } from "lucide-react";
 
 interface PokemonAbilitiesProps {
   abilities: AbilityItem[];
@@ -9,10 +8,12 @@ interface PokemonAbilitiesProps {
 
 export function PokemonAbilities({ abilities }: PokemonAbilitiesProps) {
   return (
-    <div className="rounded-2xl border border-stone-200/80 bg-white p-6 shadow-xs dark:border-stone-800/80 dark:bg-stone-900">
-      <div className="mb-4 flex items-center gap-2 border-b border-stone-100 pb-3 dark:border-stone-800">
-        <Sparkles className="h-5 w-5 text-amber-500" />
-        <h2 className="text-base font-bold text-stone-900 dark:text-stone-100">
+    <div className="rounded-[28px] border border-[#E6E0D4] bg-white p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.02)]">
+      <div className="mb-5 border-b border-[#F0ECE1] pb-3">
+        <span className="text-xs font-semibold uppercase tracking-widest text-[#78756F]">
+          Traits
+        </span>
+        <h2 className="text-xl font-bold tracking-tight text-[#141413]">
           Abilities
         </h2>
       </div>
@@ -21,15 +22,14 @@ export function PokemonAbilities({ abilities }: PokemonAbilitiesProps) {
         {abilities.map((ability) => (
           <div
             key={ability.name}
-            className="flex items-center justify-between rounded-xl border border-stone-100 bg-stone-50/80 px-3.5 py-2.5 dark:border-stone-800 dark:bg-stone-800/50"
+            className="flex items-center justify-between rounded-2xl border border-[#EFECE6] bg-[#FAF8F5] px-4 py-3"
           >
-            <span className="text-sm font-semibold text-stone-800 dark:text-stone-200">
+            <span className="text-sm font-semibold text-[#141413]">
               {formatName(ability.name)}
             </span>
 
             {ability.isHidden && (
-              <span className="inline-flex items-center gap-1 rounded-md bg-stone-200/70 px-2 py-0.5 text-[11px] font-medium text-stone-600 dark:bg-stone-700 dark:text-stone-300">
-                <EyeOff className="h-3 w-3" />
+              <span className="rounded-full border border-[#E0D9CB] bg-white px-2.5 py-0.5 text-[11px] font-medium text-[#78756F]">
                 Hidden
               </span>
             )}

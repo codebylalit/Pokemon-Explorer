@@ -5,12 +5,10 @@ import { PokemonSummary, PokemonTypeName } from "@/types/pokemon";
 import { PokemonCard } from "./PokemonCard";
 import { SearchBar } from "./SearchBar";
 import {
-  AlertCircle,
-  RefreshCw,
+  RotateCcw,
   ChevronLeft,
   ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
+  Search,
 } from "lucide-react";
 
 interface PokemonGridProps {
@@ -36,16 +34,12 @@ export function PokemonGrid({ initialPokemon }: PokemonGridProps) {
 
     return initialPokemon
       .filter((p) => {
-        // Name filter (case-insensitive)
         const matchesName = p.name.toLowerCase().includes(query);
-        // ID filter support (e.g. typing "25" or "#025")
         const matchesId =
           p.id.toString() === query ||
           p.formattedId.toLowerCase().includes(query);
 
         const matchesSearch = !query || matchesName || matchesId;
-
-        // Type filter
         const matchesType =
           selectedType === "all" || p.types.includes(selectedType);
 
@@ -67,14 +61,13 @@ export function PokemonGrid({ initialPokemon }: PokemonGridProps) {
       });
   }, [initialPokemon, searchQuery, selectedType, sortBy]);
 
-  // Reset to page 1 whenever filters change
+  // Reset page when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery, selectedType, sortBy, itemsPerPage]);
 
   const totalPages = Math.max(1, Math.ceil(filteredPokemon.length / itemsPerPage));
 
-  // Paginated slice
   const paginatedPokemon = useMemo(() => {
     if (itemsPerPage >= filteredPokemon.length) {
       return filteredPokemon;
@@ -98,7 +91,6 @@ export function PokemonGrid({ initialPokemon }: PokemonGridProps) {
     setCurrentPage(1);
   };
 
-  // Generate visible page numbers for pagination
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
     const maxVisible = 5;
@@ -121,8 +113,29 @@ export function PokemonGrid({ initialPokemon }: PokemonGridProps) {
   const endIndex = Math.min(currentPage * itemsPerPage, filteredPokemon.length);
 
   return (
-    <div ref={gridTopRef} className="space-y-6 scroll-mt-24">
-      {/* Search & Filter Controls */}
+    <div id="explore" ref={gridTopRef} className="space-y-8 scroll-mt-24">
+      {/* Section Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-[#E6E0D4] pb-6">
+        <div>
+          <span className="text-xs font-semibold uppercase tracking-widest text-[#78756F]">
+            Directory
+          </span>
+          <h2 className="mt-1 text-3xl sm:text-4xl font-black tracking-tight text-[#141413]">
+            Explore Pokémon
+          </h2>
+          <p className="mt-1 text-sm text-[#524E48]">
+            Find a Pokémon and discover what makes it unique.
+          </p>
+        </div>
+
+        {/* Handwritten Annotation */}
+        <div className="hidden sm:flex items-center gap-1.5 text-base font-handwritten text-[#524E48] rotate-[2deg]">
+          <span>Full Gen I Index</span>
+          <span className="text-sm">↓</span>
+        </div>
+      </div>
+
+      {/* Large Editorial Search Bar */}
       <SearchBar
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
@@ -133,12 +146,12 @@ export function PokemonGrid({ initialPokemon }: PokemonGridProps) {
         totalResults={initialPokemon.length}
       />
 
-      {/* Results Header / Counter & Items per page selector */}
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-xs text-stone-500 dark:text-stone-400">
+      {/* Results Header Counter & Items Per Page */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-xs text-[#78756F]">
         <div className="flex items-center gap-2">
           <span>
             Showing{" "}
-            <strong className="text-stone-800 dark:text-stone-200">
+            <strong className="text-[#141413]">
               {filteredPokemon.length > 0 ? `${startIndex}–${endIndex}` : 0}
             </strong>{" "}
             of {filteredPokemon.length} Pokémon
@@ -148,9 +161,9 @@ export function PokemonGrid({ initialPokemon }: PokemonGridProps) {
           {(searchQuery || selectedType !== "all") && (
             <button
               onClick={handleResetFilters}
-              className="flex items-center gap-1 font-semibold text-red-600 hover:text-red-700 dark:text-red-400 hover:underline cursor-pointer ml-2"
+              className="flex items-center gap-1 font-semibold text-[#141413] underline underline-offset-2 hover:text-black cursor-pointer ml-2"
             >
-              <RefreshCw className="h-3 w-3" />
+              <RotateCcw className="h-3 w-3" />
               Reset filters
             </button>
           )}
@@ -159,17 +172,17 @@ export function PokemonGrid({ initialPokemon }: PokemonGridProps) {
         {/* Items per page selector */}
         {filteredPokemon.length > 12 && (
           <div className="flex items-center gap-1.5 self-end sm:self-auto">
-            <span className="text-[11px] text-stone-400">Per page:</span>
-            <div className="inline-flex rounded-lg border border-stone-200 bg-white p-0.5 dark:border-stone-800 dark:bg-stone-900 text-xs">
+            <span className="text-[11px] text-[#78756F]">Per page:</span>
+            <div className="inline-flex rounded-full border border-[#E0D9CB] bg-white p-0.5 text-xs">
               {[24, 48, 151].map((count) => (
                 <button
                   key={count}
                   type="button"
                   onClick={() => setItemsPerPage(count)}
-                  className={`rounded-md px-2.5 py-1 text-xs font-semibold transition-colors ${
+                  className={`rounded-full px-3 py-0.5 text-xs font-semibold transition-colors cursor-pointer ${
                     itemsPerPage === count
-                      ? "bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900 shadow-xs"
-                      : "text-stone-600 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100"
+                      ? "bg-[#141413] text-white"
+                      : "text-[#524E48] hover:text-[#141413]"
                   }`}
                 >
                   {count === 151 ? "All" : count}
@@ -180,51 +193,41 @@ export function PokemonGrid({ initialPokemon }: PokemonGridProps) {
         )}
       </div>
 
-      {/* Grid or Empty State */}
+      {/* Grid: 4 cols desktop, 3 cols tablet, 2 cols mobile */}
       {filteredPokemon.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
             {paginatedPokemon.map((pokemon) => (
               <PokemonCard key={pokemon.id} pokemon={pokemon} />
             ))}
           </div>
 
-          {/* Pagination Controls */}
+          {/* Minimalist Editorial Pagination */}
           {totalPages > 1 && (
             <nav
               aria-label="Pokemon list pagination"
-              className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-stone-200/80 pt-6 dark:border-stone-800/80"
+              className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-[#E6E0D4] pt-8"
             >
-              <div className="text-xs text-stone-500 dark:text-stone-400">
-                Page <span className="font-bold text-stone-800 dark:text-stone-200">{currentPage}</span> of{" "}
-                <span className="font-bold text-stone-800 dark:text-stone-200">{totalPages}</span>
+              <div className="text-xs text-[#78756F]">
+                Page <span className="font-bold text-[#141413]">{currentPage}</span> of{" "}
+                <span className="font-bold text-[#141413]">{totalPages}</span>
               </div>
 
               <div className="flex items-center gap-1.5">
-                {/* First page button */}
-                <button
-                  type="button"
-                  onClick={() => handlePageChange(1)}
-                  disabled={currentPage === 1}
-                  aria-label="First page"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-stone-200 bg-white text-stone-700 shadow-xs transition-colors hover:bg-stone-50 disabled:pointer-events-none disabled:opacity-40 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-300 dark:hover:bg-stone-800"
-                >
-                  <ChevronsLeft className="h-4 w-4" />
-                </button>
-
-                {/* Previous page button */}
+                {/* Previous button */}
                 <button
                   type="button"
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
                   aria-label="Previous page"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-stone-200 bg-white text-stone-700 shadow-xs transition-colors hover:bg-stone-50 disabled:pointer-events-none disabled:opacity-40 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-300 dark:hover:bg-stone-800"
+                  className="inline-flex h-9 items-center gap-1 rounded-full border border-[#E0D9CB] bg-white px-3 text-xs font-semibold text-[#141413] shadow-2xs transition-colors hover:bg-[#F5F2EA] disabled:pointer-events-none disabled:opacity-30 cursor-pointer"
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Prev</span>
                 </button>
 
                 {/* Page numbers */}
-                <div className="hidden sm:flex items-center gap-1">
+                <div className="flex items-center gap-1">
                   {getPageNumbers().map((p, idx) =>
                     typeof p === "number" ? (
                       <button
@@ -232,10 +235,10 @@ export function PokemonGrid({ initialPokemon }: PokemonGridProps) {
                         type="button"
                         onClick={() => handlePageChange(p)}
                         aria-current={currentPage === p ? "page" : undefined}
-                        className={`inline-flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all ${
+                        className={`inline-flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold transition-all cursor-pointer ${
                           currentPage === p
-                            ? "bg-red-600 text-white shadow-xs"
-                            : "border border-stone-200 bg-white text-stone-700 hover:bg-stone-50 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-300 dark:hover:bg-stone-800"
+                            ? "bg-[#141413] text-white shadow-xs"
+                            : "border border-[#E0D9CB] bg-white text-[#524E48] hover:border-[#141413] hover:text-[#141413]"
                         }`}
                       >
                         {p}
@@ -243,7 +246,7 @@ export function PokemonGrid({ initialPokemon }: PokemonGridProps) {
                     ) : (
                       <span
                         key={`ellipsis-${idx}`}
-                        className="px-1.5 text-xs text-stone-400"
+                        className="px-1 text-xs text-[#78756F]"
                       >
                         {p}
                       </span>
@@ -251,26 +254,16 @@ export function PokemonGrid({ initialPokemon }: PokemonGridProps) {
                   )}
                 </div>
 
-                {/* Next page button */}
+                {/* Next button */}
                 <button
                   type="button"
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}
                   aria-label="Next page"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-stone-200 bg-white text-stone-700 shadow-xs transition-colors hover:bg-stone-50 disabled:pointer-events-none disabled:opacity-40 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-300 dark:hover:bg-stone-800"
+                  className="inline-flex h-9 items-center gap-1 rounded-full border border-[#E0D9CB] bg-white px-3 text-xs font-semibold text-[#141413] shadow-2xs transition-colors hover:bg-[#F5F2EA] disabled:pointer-events-none disabled:opacity-30 cursor-pointer"
                 >
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-
-                {/* Last page button */}
-                <button
-                  type="button"
-                  onClick={() => handlePageChange(totalPages)}
-                  disabled={currentPage === totalPages}
-                  aria-label="Last page"
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-stone-200 bg-white text-stone-700 shadow-xs transition-colors hover:bg-stone-50 disabled:pointer-events-none disabled:opacity-40 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-300 dark:hover:bg-stone-800"
-                >
-                  <ChevronsRight className="h-4 w-4" />
+                  <span className="hidden sm:inline">Next</span>
+                  <ChevronRight className="h-3.5 w-3.5" />
                 </button>
               </div>
             </nav>
@@ -278,30 +271,30 @@ export function PokemonGrid({ initialPokemon }: PokemonGridProps) {
         </>
       ) : (
         /* Empty State */
-        <div className="flex min-h-[320px] flex-col items-center justify-center rounded-2xl border border-dashed border-stone-300 bg-stone-50/50 p-8 text-center dark:border-stone-800 dark:bg-stone-900/40">
-          <div className="mb-4 rounded-full bg-red-100 p-3 text-red-600 dark:bg-red-950/50 dark:text-red-400">
-            <AlertCircle className="h-8 w-8" />
+        <div className="flex min-h-[300px] flex-col items-center justify-center rounded-[28px] border border-dashed border-[#D5CEBF] bg-white/60 p-8 text-center">
+          <div className="mb-3 rounded-full bg-[#FAF5DB] p-3 text-[#7A6318]">
+            <Search className="h-6 w-6" />
           </div>
-          <h3 className="text-lg font-bold text-stone-900 dark:text-stone-100">
+          <h3 className="text-lg font-bold text-[#141413]">
             No Pokémon Found
           </h3>
-          <p className="mt-1 max-w-md text-sm text-stone-500 dark:text-stone-400">
+          <p className="mt-1 max-w-md text-sm text-[#78756F]">
             We couldn&apos;t find any Pokémon matching{" "}
             {searchQuery && (
-              <span className="font-semibold text-stone-800 dark:text-stone-200">
+              <span className="font-semibold text-[#141413]">
                 &ldquo;{searchQuery}&rdquo;
               </span>
             )}
             {selectedType !== "all" && (
               <span> with type &ldquo;{selectedType}&rdquo;</span>
             )}
-            . Try checking for typos or resetting your filters.
+            . Try clearing your filters.
           </p>
           <button
             onClick={handleResetFilters}
-            className="mt-5 inline-flex items-center gap-2 rounded-xl bg-red-600 px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition-all hover:bg-red-700 hover:shadow-md focus:outline-hidden focus:ring-3 focus:ring-red-500/20 active:scale-98 cursor-pointer"
+            className="mt-5 inline-flex items-center gap-2 rounded-full bg-[#141413] px-5 py-2.5 text-xs font-semibold text-white shadow-xs transition-all hover:bg-black active:scale-98 cursor-pointer"
           >
-            <RefreshCw className="h-4 w-4" />
+            <RotateCcw className="h-3.5 w-3.5" />
             Clear Search & Filters
           </button>
         </div>

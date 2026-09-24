@@ -16,51 +16,39 @@ export function PokemonCard({ pokemon }: PokemonCardProps) {
   return (
     <Link
       href={`/pokemon/${pokemon.id}`}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-stone-200/80 bg-white/90 p-5 shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-stone-300 hover:shadow-xl dark:border-stone-800/80 dark:bg-stone-900/90 dark:hover:border-stone-700 focus:outline-hidden focus-visible:ring-2 focus-visible:ring-red-500"
+      className={`group relative flex flex-col justify-between overflow-hidden rounded-[24px] border ${typeStyle.cardBorder} ${typeStyle.cardBg} p-5 sm:p-6 shadow-[0_2px_12px_rgba(0,0,0,0.02)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_12px_24px_rgba(0,0,0,0.05)] focus:outline-hidden focus-visible:ring-2 focus-visible:ring-[#141413]`}
       aria-label={`View details for ${formatName(pokemon.name)}`}
     >
-      {/* Subtle background glow from primary type */}
-      <div
-        className={`absolute inset-0 bg-gradient-to-br ${typeStyle.gradient} opacity-40 transition-opacity duration-300 group-hover:opacity-80`}
-        aria-hidden="true"
-      />
-
-      {/* Card Header: Name & ID */}
-      <div className="relative z-10 flex items-start justify-between gap-2">
-        <div>
-          <span className="font-mono text-xs font-bold text-stone-600 dark:text-stone-300">
-            {pokemon.formattedId}
-          </span>
-          <h3 className="text-lg font-bold text-stone-900 transition-colors duration-200 group-hover:text-red-600 dark:text-stone-100 dark:group-hover:text-red-400">
-            {formatName(pokemon.name)}
-          </h3>
-        </div>
-
-        {/* Decorative Pokeball watermark */}
-        <div
-          className="pointer-events-none absolute -top-4 -right-4 h-24 w-24 rounded-full border-8 border-stone-200/40 opacity-20 transition-transform duration-500 group-hover:rotate-45 group-hover:scale-110 dark:border-stone-700/40"
-          aria-hidden="true"
-        />
+      {/* Card Header: ID & Name */}
+      <div className="flex flex-col items-start gap-0.5">
+        <span className="font-mono text-xs font-semibold text-[#78756F]">
+          {pokemon.formattedId}
+        </span>
+        <h3 className="text-lg font-bold text-[#141413] tracking-tight transition-colors duration-200 group-hover:underline underline-offset-2">
+          {formatName(pokemon.name)}
+        </h3>
       </div>
 
-      {/* Pokemon Image */}
-      <div className="relative z-10 my-4 flex h-36 w-full items-center justify-center">
-        <div className="relative h-32 w-32 drop-shadow-md transition-transform duration-300 ease-out group-hover:scale-110">
+      {/* Pokemon Artwork */}
+      <div className="relative my-4 flex h-36 w-full items-center justify-center">
+        <div className="relative h-32 w-32 drop-shadow-xs transition-transform duration-300 ease-out group-hover:scale-110">
           <Image
             src={pokemon.image}
-            alt={`Official artwork of ${formatName(pokemon.name)}`}
+            alt={formatName(pokemon.name)}
             fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             className="object-contain"
-            priority={pokemon.id <= 12}
-            unoptimized={false}
+            priority={pokemon.id <= 8}
           />
         </div>
       </div>
 
-      {/* Card Footer: Types */}
-      <div className="relative z-10 mt-auto pt-2 border-t border-stone-100 dark:border-stone-800/60">
+      {/* Card Footer: Type Badges */}
+      <div className="pt-2 border-t border-black/5 flex items-center justify-between">
         <PokemonTypes types={pokemon.types} size="sm" />
+        <span className="text-xs font-semibold text-[#78756F] opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+          →
+        </span>
       </div>
     </Link>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Search, X, SlidersHorizontal } from "lucide-react";
+import { Search, X, ArrowDownWideNarrow } from "lucide-react";
 import { ALL_POKEMON_TYPES, TYPE_STYLES } from "@/lib/constants";
 import { PokemonTypeName } from "@/types/pokemon";
 
@@ -25,12 +25,12 @@ export function SearchBar({
   totalResults,
 }: SearchBarProps) {
   return (
-    <div className="w-full space-y-4">
-      {/* Top row: Search input + Sort dropdown */}
+    <div className="w-full space-y-5">
+      {/* Large Premium Editorial Search Bar & Sort Dropdown */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        {/* Search Input */}
+        {/* Large Editorial Search Field */}
         <div className="relative flex-1">
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-stone-400 dark:text-stone-500">
+          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-[#78756F]">
             <Search className="h-5 w-5" aria-hidden="true" />
           </div>
 
@@ -39,16 +39,16 @@ export function SearchBar({
             id="pokemon-search-input"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search Pokémon by name (e.g. Pikachu, Charizard)..."
-            className="w-full rounded-xl border border-stone-200 bg-white py-3 pr-10 pl-11 text-sm font-medium text-stone-900 placeholder:text-stone-400 shadow-xs transition-all duration-200 focus:border-red-500 focus:outline-hidden focus:ring-3 focus:ring-red-500/20 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-100 dark:placeholder:text-stone-500 dark:focus:border-red-500"
-            aria-label="Search Pokémon by name"
+            placeholder="Search Pokémon..."
+            className="w-full rounded-full border border-[#E0D9CB] bg-white py-3.5 pr-10 pl-12 text-sm font-medium text-[#141413] placeholder:text-[#948F85] shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all duration-200 focus:border-[#141413] focus:outline-hidden focus:ring-2 focus:ring-[#141413]/10"
+            aria-label="Search Pokémon by name or ID"
           />
 
           {searchQuery && (
             <button
               onClick={() => onSearchChange("")}
-              className="absolute inset-y-0 right-0 flex items-center pr-3.5 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 transition-colors"
-              aria-label="Clear search query"
+              className="absolute inset-y-0 right-0 flex items-center pr-4 text-[#78756F] hover:text-[#141413] transition-colors cursor-pointer"
+              aria-label="Clear search"
               type="button"
             >
               <X className="h-4 w-4" />
@@ -56,10 +56,10 @@ export function SearchBar({
           )}
         </div>
 
-        {/* Sort Select */}
+        {/* Minimalist Sort Control */}
         <div className="flex items-center gap-2">
           <div className="relative inline-flex items-center">
-            <SlidersHorizontal className="pointer-events-none absolute left-3 h-4 w-4 text-stone-400" />
+            <ArrowDownWideNarrow className="pointer-events-none absolute left-3.5 h-3.5 w-3.5 text-[#78756F]" />
             <select
               value={sortBy}
               onChange={(e) =>
@@ -67,7 +67,7 @@ export function SearchBar({
                   e.target.value as "id-asc" | "id-desc" | "name-asc" | "name-desc"
                 )
               }
-              className="appearance-none rounded-xl border border-stone-200 bg-white py-3 pr-8 pl-9 text-xs font-semibold text-stone-700 shadow-xs transition-all hover:border-stone-300 focus:border-red-500 focus:outline-hidden focus:ring-3 focus:ring-red-500/20 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-300 dark:hover:border-stone-700"
+              className="appearance-none rounded-full border border-[#E0D9CB] bg-white py-3 pr-8 pl-9 text-xs font-semibold text-[#524E48] shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all hover:border-[#141413] focus:border-[#141413] focus:outline-hidden cursor-pointer"
               aria-label="Sort Pokémon"
             >
               <option value="id-asc">ID: Low to High</option>
@@ -79,22 +79,22 @@ export function SearchBar({
         </div>
       </div>
 
-      {/* Type Filter Chips (horizontal scrollable on mobile) */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar">
-        <span className="text-xs font-medium text-stone-400 dark:text-stone-500 pr-1 shrink-0">
-          Filter:
+      {/* Type Filter Pills with Editorial Spacing */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 text-xs no-scrollbar">
+        <span className="text-xs font-medium text-[#78756F] shrink-0 pr-1">
+          Type:
         </span>
 
         <button
           type="button"
           onClick={() => onTypeChange("all")}
-          className={`shrink-0 rounded-full px-3 py-1 font-semibold transition-all duration-150 ${
+          className={`shrink-0 rounded-full px-3.5 py-1.5 font-semibold transition-all duration-150 cursor-pointer ${
             selectedType === "all"
-              ? "bg-stone-900 text-white shadow-xs dark:bg-stone-100 dark:text-stone-900"
-              : "bg-stone-100 text-stone-600 hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
+              ? "bg-[#141413] text-white shadow-xs"
+              : "bg-white border border-[#E0D9CB] text-[#524E48] hover:border-[#141413] hover:text-[#141413]"
           }`}
         >
-          All ({totalResults})
+          All
         </button>
 
         {ALL_POKEMON_TYPES.map((type) => {
@@ -106,10 +106,10 @@ export function SearchBar({
               key={type}
               type="button"
               onClick={() => onTypeChange(isSelected ? "all" : type)}
-              className={`shrink-0 rounded-full px-3 py-1 font-semibold transition-all duration-150 ${
+              className={`shrink-0 rounded-full px-3.5 py-1.5 font-semibold transition-all duration-150 cursor-pointer ${
                 isSelected
-                  ? `${style.badgeBg} ring-2 ring-stone-900/20 dark:ring-white/20 shadow-xs scale-105`
-                  : "bg-stone-100 text-stone-600 hover:bg-stone-200 dark:bg-stone-800 dark:text-stone-400 dark:hover:bg-stone-700"
+                  ? "bg-[#141413] text-white shadow-xs"
+                  : `${style.cardBg} border ${style.cardBorder} ${style.badgeText} hover:border-[#141413]`
               }`}
             >
               {style?.label || type}

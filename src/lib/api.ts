@@ -87,7 +87,7 @@ function transformToDetail(
     const config = STAT_CONFIG[key] || {
       label: statItem.stat.name.toUpperCase(),
       max: 200,
-      colorClass: "bg-blue-500",
+      barColor: "bg-[#141413]",
     };
     totalStats += statItem.base_stat;
     return {
@@ -95,7 +95,7 @@ function transformToDetail(
       label: config.label,
       value: statItem.base_stat,
       max: config.max,
-      colorClass: config.colorClass,
+      colorClass: config.barColor,
     };
   });
 

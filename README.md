@@ -4,29 +4,31 @@ A responsive web application for browsing and discovering Pokemon, built with Ne
 
 ## Overview
 
-Pokemon Explorer gives users an intuitive interface to browse through Pokemon, search by name or ID, filter by elemental types, and inspect detailed profiles. The application leverages Next.js Server Components for fast initial data delivery and combines them with client components where instant interaction—such as live search filtering—is needed.
+Pokemon Explorer is an editorial Pokédex interface with modern typography, warm off-white tones, soft pastel type cards, and instant search. The application leverages Next.js Server Components for fast initial data delivery and combines them with client components for interactive filtering and pagination.
 
 ## Features
 
 ### Homepage
+- **Editorial Hero Section**: Full-width spacious typography featuring pill badges, bold multi-line headline, and designer annotations.
+- **Horizontal Visual Strip**: Scrollable strip of featured Pokemon cards styled like editorial photography with subtle hover animations and pastel backgrounds.
 - **Initial Server-Rendered Listing**: Loads the initial collection of Pokemon server-side using PokeAPI with built-in caching.
-- **Responsive Layout**: Adapts smoothly from single-column mobile views to multi-column desktop grids.
-- **Pokemon Cards**: Displays high-resolution official artwork, formatted Pokemon IDs (#001), names, and color-coded type badges.
+- **Responsive Layout**: Adapts smoothly from a 2-column mobile grid to 3-column tablet and 4-column desktop grids.
+- **Pokemon Cards**: Soft pastel backgrounds tailored to Pokemon types, 24px rounded corners, official high-resolution artwork, formatted IDs (#001), and minimal metadata.
 - **Search and Filtering**:
-  - Case-insensitive search by Pokemon name or ID.
-  - Type filter tags to quickly narrow down Pokemon by elemental type.
+  - Case-insensitive search by Pokemon name or numeric ID.
+  - Elemental type filter tags.
   - Sorting options by ID (ascending/descending) and Name (alphabetical).
-- **Pagination**: Bottom pagination controls with page numbers, jump-to-page, items-per-page options (24, 48, All), and smooth top-scrolling for effortless browsing.
+- **Pagination**: Bottom pagination controls with page numbers, items-per-page selector, and smooth top-scrolling.
 - **Empty and Feedback States**: Clear messaging when no Pokemon match active search filters, along with an instant reset button.
 - **Loading and Error Handling**: Skeleton cards during data retrieval and error boundaries with retry actions.
 
 ### Pokemon Detail Page (`/pokemon/[id]`)
 - **Dynamic Routing**: Dedicated pages accessible via Pokemon ID or name.
-- **Detailed Overview**: High-resolution artwork, physical dimensions (height and weight), base experience, and official Pokedex flavor text.
-- **Base Stats Analytics**: Visual progress meters showing individual stat distributions (HP, Attack, Defense, Special Attack, Special Defense, Speed) alongside the Base Stat Total (BST).
-- **Abilities**: Complete list of regular abilities and tagged hidden abilities.
+- **Editorial Presentation**: Large official artwork with a soft circular backdrop, physical dimensions (height, weight, base experience), and official Pokedex flavor text.
+- **Base Stats Analytics**: Clean horizontal progress meters showing individual stat distributions alongside the Base Stat Total (BST).
+- **Abilities**: Standard abilities and tagged hidden abilities.
 - **Learnable Moves**: Searchable catalog of moves the Pokemon can learn.
-- **Navigation and Resilience**: Simple back navigation to the main explorer, custom 404 page for missing or invalid IDs, and skeleton loading screens.
+- **Navigation and Resilience**: Simple back navigation, custom 404 page for missing or invalid IDs, and skeleton loading screens.
 
 ## Tech Stack
 
@@ -90,12 +92,12 @@ npm run start
 Pokemon Explorer/
 ├── src/
 │   ├── app/
-│   │   ├── layout.tsx              # Root layout, metadata, and site navigation
-│   │   ├── page.tsx                # Homepage server component
+│   │   ├── layout.tsx              # Root layout, Google Fonts (Plus Jakarta Sans, Caveat), Navbar
+│   │   ├── page.tsx                # Homepage server component (Hero, Visual Strip, Directory)
 │   │   ├── loading.tsx             # Homepage loading skeleton
 │   │   ├── error.tsx               # Homepage error boundary
 │   │   ├── not-found.tsx           # Global 404 page
-│   │   ├── globals.css             # Tailwind imports and base styles
+│   │   ├── globals.css             # Tailwind theme, pastel tokens, custom scrollbars
 │   │   └── pokemon/
 │   │       └── [id]/
 │   │           ├── page.tsx        # Dynamic detail page server component
@@ -104,10 +106,11 @@ Pokemon Explorer/
 │   │           └── not-found.tsx   # Pokemon not found UI
 │   ├── components/
 │   │   ├── Navbar.tsx              # Header and branding bar
-│   │   ├── SearchBar.tsx           # Search input, type filters, and sort options
-│   │   ├── PokemonCard.tsx         # Pokemon card with artwork and badges
-│   │   ├── PokemonGrid.tsx         # Interactive client grid and empty states
-│   │   ├── PokemonTypes.tsx        # Elemental type badge component
+│   │   ├── SearchBar.tsx           # Large editorial search input, type filters, sort options
+│   │   ├── PokemonCard.tsx         # Art-piece styled Pokemon card with pastel background
+│   │   ├── PokemonGrid.tsx         # 4-3-2 column responsive grid, pagination, empty state
+│   │   ├── PokemonVisualStrip.tsx  # Horizontal featured Pokemon photo strip
+│   │   ├── PokemonTypes.tsx        # Minimal pastel type badge component
 │   │   ├── PokemonStats.tsx        # Base stats visualization with progress bars
 │   │   ├── PokemonAbilities.tsx    # Standard and hidden abilities section
 │   │   ├── PokemonMoves.tsx        # Move list with search filter
@@ -126,6 +129,7 @@ Pokemon Explorer/
 
 ## Implementation Notes and Decisions
 
+- **Editorial Design Direction**: Embraces a warm off-white canvas (`#F5F2EA`), charcoal typography, 24px-28px rounded corners, subtle hairline borders, and soft pastel type backgrounds rather than standard generic dashboard styling.
 - **Initial Dataset**: The homepage fetches the first 151 Generation 1 Pokemon server-side with details in batches. This provides immediate data upon load and enables instant, zero-latency client-side search and filtering without unnecessary network roundtrips on every keypress.
 - **Image Optimization**: Configured Next.js remote patterns to optimize official artwork directly from PokeAPI's repository.
 - **Separation of Concerns**: Data fetching and normalization logic reside entirely within `src/lib/api.ts`, producing typed models (`PokemonSummary` and `PokemonDetail`) for clean component consumption.
