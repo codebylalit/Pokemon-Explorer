@@ -196,9 +196,17 @@ export function PokemonGrid({ initialPokemon }: PokemonGridProps) {
       {/* Grid: 4 cols desktop, 3 cols tablet, 2 cols mobile */}
       {filteredPokemon.length > 0 ? (
         <>
-          <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
-            {paginatedPokemon.map((pokemon) => (
-              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+          <div key={`grid-page-${currentPage}-${searchQuery}-${selectedType}`} className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 animate-fade-in">
+            {paginatedPokemon.map((pokemon, idx) => (
+              <div
+                key={pokemon.id}
+                style={{
+                  animationDelay: `${Math.min(idx * 35, 400)}ms`,
+                }}
+                className="animate-fade-in fill-mode-both"
+              >
+                <PokemonCard pokemon={pokemon} />
+              </div>
             ))}
           </div>
 

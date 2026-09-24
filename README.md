@@ -20,6 +20,7 @@ Pokemon Explorer is an editorial Pokédex interface with modern typography, warm
   - Sorting options by ID (ascending/descending) and Name (alphabetical).
 - **Pagination**: Bottom pagination controls with page numbers, items-per-page selector, and smooth top-scrolling.
 - **Empty and Feedback States**: Clear messaging when no Pokemon match active search filters, along with an instant reset button.
+- **Scroll Reveal Animations**: Smooth scroll-triggered fade-in animations with staggered card reveals as elements enter the viewport.
 - **Loading and Error Handling**: Skeleton cards during data retrieval and error boundaries with retry actions.
 
 ### Pokemon Detail Page (`/pokemon/[id]`)

@@ -73,7 +73,7 @@ export default async function PokemonDetailPage({
       {/* Main Editorial Showcase */}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
         {/* Left Column: Massive Artwork & Visual Presentation */}
-        <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-6">
+        <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-6 animate-fade-in">
           <div
             className={`relative flex flex-col items-center justify-center rounded-[32px] border ${typeStyle.cardBorder} ${typeStyle.cardBg} p-8 sm:p-12 shadow-[0_4px_24px_rgba(0,0,0,0.03)] overflow-hidden`}
           >
@@ -131,7 +131,7 @@ export default async function PokemonDetailPage({
         </div>
 
         {/* Right Column: Title, Lore, Types, Stats, Abilities, Moves */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="lg:col-span-7 space-y-6 animate-fade-in-delayed">
           {/* Header Card */}
           <div className="rounded-[28px] border border-[#E6E0D4] bg-white p-6 sm:p-8 shadow-[0_2px_12px_rgba(0,0,0,0.02)] space-y-4">
             <div>

@@ -2,6 +2,7 @@ import React from "react";
 import { getPokemonList } from "@/lib/api";
 import { PokemonGrid } from "@/components/PokemonGrid";
 import { PokemonVisualStrip } from "@/components/PokemonVisualStrip";
+import { FadeIn } from "@/components/FadeIn";
 
 export const revalidate = 86400; // Cache for 24 hours
 
@@ -11,7 +12,7 @@ export default async function HomePage() {
   return (
     <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-12 pt-10 sm:pt-16">
       {/* Centered Editorial Hero Section */}
-      <section className="relative py-8 sm:py-16 max-w-4xl mx-auto flex flex-col items-center text-center space-y-7">
+      <section className="relative py-8 sm:py-16 max-w-4xl mx-auto flex flex-col items-center text-center space-y-7 animate-fade-in">
         {/* Pill above heading */}
         <div className="inline-flex items-center gap-2 rounded-full border border-[#E0D9CB] bg-white px-4 py-1.5 text-xs font-semibold text-[#524E48] shadow-2xs">
           <span className="h-1.5 w-1.5 rounded-full bg-[#141413]" />
@@ -47,13 +48,17 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Editorial Pokemon Visual Strip */}
-      <PokemonVisualStrip />
+      {/* Editorial Pokemon Visual Strip with Scroll Fade */}
+      <FadeIn delay={100}>
+        <PokemonVisualStrip />
+      </FadeIn>
 
-      {/* Main Grid Section */}
-      <section className="pt-6 sm:pt-10" aria-label="Pokémon Directory">
-        <PokemonGrid initialPokemon={pokemonList} />
-      </section>
+      {/* Main Grid Section with Scroll Fade */}
+      <FadeIn delay={150}>
+        <section className="pt-6 sm:pt-10" aria-label="Pokémon Directory">
+          <PokemonGrid initialPokemon={pokemonList} />
+        </section>
+      </FadeIn>
     </div>
   );
 }
